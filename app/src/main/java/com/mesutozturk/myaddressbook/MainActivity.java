@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     ListView lstContact;
     BaseAdapter adapter;
     LayoutInflater layoutInflater;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,15 +73,17 @@ public class MainActivity extends AppCompatActivity {
                 convertView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        //Toast.makeText(MainActivity.this, listPerson.getPhoneNumber(), Toast.LENGTH_SHORT).show();
                         if (TextUtils.isEmpty(listPerson.getPhoneNumber())) {
                             Toast.makeText(MainActivity.this, listPerson.getName() + " haven't a phone number!", Toast.LENGTH_SHORT).show();
                         } else {
                             Intent intent = new Intent(Intent.ACTION_CALL);
                             intent.setData(Uri.parse("tel:" + listPerson.getPhoneNumber()));
 
-                            if (ActivityCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                                Toast.makeText(MainActivity.this, "We havn't call perm.", Toast.LENGTH_SHORT).show();
-
+                            //granted call permission!!
+                            if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                                Toast.makeText(MainActivity.this, "We haven't a call perm.", Toast.LENGTH_SHORT).show();
+                                //if we havent call perm. requested call perm. Check android manifest file
                                 ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CALL_PHONE}, 100);
                                 return;
                             }
@@ -94,6 +97,6 @@ public class MainActivity extends AppCompatActivity {
         };
 
         lstContact.setAdapter(adapter);
-        };
     }
 }
+
